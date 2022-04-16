@@ -37,10 +37,30 @@ function App() {
 
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
-
   const [username, setUsername] = useState([]);
-  const [email, setEmail] = useState([]);
   const [password, setPassword] = useState([]);
+  const [email, setEmail] = useState([]);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        console.log(authUser);
+        setUser(authUser);
+
+        if (authUser.displayName) {
+
+        } else {
+          return authUser.updateProfile({
+            displayName: username,
+          });
+        }
+
+      } else {
+        setUser(null);
+      }
+    })
+  }, []);
 
   // useEffect => runs a piece of code based on a specific condition
   useEffect(() => {
@@ -78,20 +98,20 @@ function App() {
               />
             </center>
             <Input
-              placeholder="username"
               type="text"
+              placeholder="username"
               value={username}
               onChange={(e) => setUsername(e.bubbles)}
             />
             <Input
-              placeholder="email"
               type="text"
+              placeholder="email"
               value={email}
               onChange={(e) => setEmail(e.bubbles)}
             />
             <Input
-              placeholder="password"
               type="text"
+              placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.bubbles)}
             />
