@@ -2,10 +2,40 @@ import React, { useState, useEffect } from 'react'
 import './App.css';
 import Post from './Post.js'
 import { db } from './firebase'
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+import { Button } from '@mui/material';
+
+// 1:36:15hr youtube video, when i started looking for how to start firebase from console to render on the page
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3)
+  },
+}));
 
 function App() {
-  const [posts, setPosts] = useState([
-  ]);
+  const classes = useStyles();
+  const [modalStyle] = React.useState(getModalStyle);
+
+  const [posts, setPosts] = useState([]);
+  const [open, setOpen] = useState(false);
 
   // useEffect => runs a piece of code based on a specific condition
   useEffect(() => {
@@ -17,19 +47,22 @@ function App() {
         post: doc.data()
       })))
     })
-  }, [posts])
+  }, [posts]);
 
+  const signUp = (e) => {
+
+  }
   return (
     <div className="app">
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <div style={modalStyle} className={classes.paper}>
           <h2>I am a modal</h2>
-        </Box>
+        </div>
       </Modal>
       <div className="app_header">
         <img
@@ -38,6 +71,9 @@ function App() {
           alt=""
         />
       </div>
+
+      <Button onClick={() => setOpen(true)}>SignUp</Button>
+
       <h1>This is the start of something great! suck my ass! 😀</h1>
       {
         posts.map(({ id, post }) => (
