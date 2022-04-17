@@ -43,7 +43,7 @@ function App() {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         console.log(authUser);
         setUser(authUser);
@@ -60,7 +60,11 @@ function App() {
         setUser(null);
       }
     })
-  }, []);
+
+    return () => {
+      unsubscribe();
+    }
+  }, [user, username]);
 
   // useEffect => runs a piece of code based on a specific condition
   useEffect(() => {
@@ -80,6 +84,8 @@ function App() {
     auth.createUserWithEmailAndPassword(email, password)
     .catch((error) => alert(error.message))
   }
+
+  // console.log(username)
   return (
     <div className="app">
       <Modal
@@ -98,22 +104,22 @@ function App() {
               />
             </center>
             <Input
-              type="text"
+              // type="text"
               placeholder="username"
               value={username}
-              onChange={(e) => setUsername(e.bubbles)}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <Input
               type="text"
               placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.bubbles)}
+              // value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               type="text"
               placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.bubbles)}
+              // value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </form>
           <Button onClick={signUp}>Sign Up</Button>
