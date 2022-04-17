@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openSignIn, setOpenSignIn] = useState('')
   const [username, setUsername] = useState([]);
   const [password, setPassword] = useState([]);
   const [email, setEmail] = useState([]);
@@ -81,10 +81,23 @@ function App() {
   const signUp = (e) => {
     e.preventDefault();
 
-    auth.createUserWithEmailAndPassword(email, password)
-    .catch((error) => alert(error.message))
+    auth.
+      createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        return authUser.user.updateProfile({
+          displayName: username
+        })
+      })
+      .catch((error) => alert(error.message))
   }
 
+  function signIn(e) {
+    auth.
+    signIn(email, password)
+    .then((authUser) => {
+      return authUser.user
+    })
+  }
   // console.log(username)
   return (
     <div className="app">
@@ -121,10 +134,53 @@ function App() {
               // value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <Button type="submit" onClick={signIn}>Sign In</Button>
           </form>
           <Button onClick={signUp}>Sign Up</Button>
         </div>
       </Modal>
+      
+      <Modal
+        open={openSignIn}
+        onClose={() => setOpenSignIn(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div style={modalStyle} className={classes.paper}>
+          <form className="app__signup">
+            <center>
+              <img
+                className="app_headerImage"
+                src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
+                alt=""
+              />
+            </center>
+            {/* <Input
+              // type="text"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            /> */}
+            <Input
+              type="text"
+              placeholder="email"
+              // value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="password"
+              // value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" onClick={signIn}>Sign In</Button>
+          </form>
+          <Button onClick={signUp}>Sign Up</Button>
+        </div>
+      </Modal>
+
+
+
       <div className="app_header">
         <img
           className="app_headerImage"
@@ -132,7 +188,15 @@ function App() {
           alt=""
         />
       </div>
-      <Button onClick={() => setOpen(true)}>SignUp</Button>
+
+      {user ? (
+        <Button onClick={() => auth.signOut()}>Logout</Button>
+      ) : (
+        <div className="app__loginContainer">
+          <Button onClick={() => setOpenSignIn(true)}>SignIn</Button>
+          <Button onClick={() => setOpen(true)}>SignUp</Button>
+        </div>
+      )}
 
       <h1>This is the start of something great!😀</h1>
       {
