@@ -6,8 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Input from '@material-ui/core/Input';
 import { Button } from '@mui/material';
-
-
+import ImageUpload from './ImageUpload';
 
 function getModalStyle() {
   const top = 50;
@@ -37,25 +36,22 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
   const [openSignIn, setOpenSignIn] = useState('')
-  const [username, setUsername] = useState([]);
-  const [password, setPassword] = useState([]);
-  const [email, setEmail] = useState([]);
-  const [user, setUser] = useState([]);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        console.log(authUser);
+        // console.log(authUser);
         setUser(authUser);
-
         if (authUser.displayName) {
-
         } else {
           return authUser.updateProfile({
             displayName: username,
           });
         }
-
       } else {
         setUser(null);
       }
@@ -92,15 +88,24 @@ function App() {
   }
 
   function signIn(e) {
+    e.preventDefault();
+
     auth.
-    signIn(email, password)
-    .then((authUser) => {
-      return authUser.user
-    })
+      signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error.message))
+
+    setOpenSignIn(false);
   }
-  // console.log(username)
+
   return (
     <div className="app">
+
+      {user?.displayName ? (
+        <ImageUpload username={user.displayName} />
+      ) : (
+        <h3>Need to LogIn!</h3>
+      )}
+
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -139,7 +144,7 @@ function App() {
           <Button onClick={signUp}>Sign Up</Button>
         </div>
       </Modal>
-      
+
       <Modal
         open={openSignIn}
         onClose={() => setOpenSignIn(false)}
@@ -155,12 +160,6 @@ function App() {
                 alt=""
               />
             </center>
-            {/* <Input
-              // type="text"
-              placeholder="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            /> */}
             <Input
               type="text"
               placeholder="email"
