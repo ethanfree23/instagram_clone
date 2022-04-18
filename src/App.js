@@ -7,6 +7,7 @@ import Modal from '@material-ui/core/Modal';
 import Input from '@material-ui/core/Input';
 import { Button } from '@mui/material';
 import ImageUpload from './ImageUpload';
+import InstagramEmbed from 'react-instagram-embed';
 
 function getModalStyle() {
   const top = 50;
@@ -65,7 +66,7 @@ function App() {
   // useEffect => runs a piece of code based on a specific condition
   useEffect(() => {
     // "do this when the page loads, and not again... unless "posts" changes" is what useEffect is telling the computer
-    db.collection('posts').onSnapshot(snapshot => {
+    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
       // every time a new psot is added, this code fires
       setPosts(snapshot.docs.map(doc => ({
         id: doc.id,
@@ -100,12 +101,6 @@ function App() {
   return (
     <div className="app">
 
-      {user?.displayName ? (
-        <ImageUpload username={user.displayName} />
-      ) : (
-        <h3>Need to LogIn!</h3>
-      )}
-
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -116,7 +111,7 @@ function App() {
           <form className="app__signup">
             <center>
               <img
-                className="app_headerImage"
+                className="app__headerImage"
                 src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
                 alt=""
               />
@@ -155,7 +150,7 @@ function App() {
           <form className="app__signup">
             <center>
               <img
-                className="app_headerImage"
+                className="app__headerImage"
                 src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
                 alt=""
               />
@@ -178,36 +173,55 @@ function App() {
         </div>
       </Modal>
 
-
-
-      <div className="app_header">
+      <div className="app__header">
         <img
-          className="app_headerImage"
+          className="app__headerImage"
           src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
           alt=""
         />
+        {user ? (
+          <Button onClick={() => auth.signOut()}>Logout</Button>
+        ) : (
+          <div className="app__loginContainer">
+            <Button onClick={() => setOpenSignIn(true)}>SignIn</Button>
+            <Button onClick={() => setOpen(true)}>SignUp</Button>
+          </div>
+        )}
       </div>
 
-      {user ? (
-        <Button onClick={() => auth.signOut()}>Logout</Button>
-      ) : (
-        <div className="app__loginContainer">
-          <Button onClick={() => setOpenSignIn(true)}>SignIn</Button>
-          <Button onClick={() => setOpen(true)}>SignUp</Button>
-        </div>
-      )}
 
-      <h1>This is the start of something great!😀</h1>
-      {
-        posts.map(({ id, post }) => (
-          <Post
-            key={id}
-            username={post.username}
-            caption={post.caption}
-            imageURL={post.imageURL}
-          />
-        ))
-      }
+      <div className="app__posts">This is the start of something great!😀
+        {
+          posts.map(({ id, post }) => (
+            <Post
+              // className="app__posts"
+              key={id}
+              username={post.username}
+              caption={post.caption}
+              imageURL={post.imageURL}
+            />
+          ))
+        }
+      </div>
+      <InstagramEmbed
+        url='https://instagr.am/p/Zw9o4/'
+        clientAccessToken='123|456'
+        maxWidth={320}
+        hideCaption={false}
+        containerTagName='div'
+        protocol=''
+        injectScript
+        onLoading={() => { }}
+        onSuccess={() => { }}
+        onAfterRender={() => { }}
+        onFailure={() => { }}
+      />
+
+      {user?.displayName ? (
+        <ImageUpload username={user.displayName} />
+      ) : (
+        <h3>Need to LogIn!</h3>
+      )}
 
       {/* Footer */}
     </div>

@@ -1,7 +1,10 @@
+import "./ImageUpload.css"
+import './App'
 import React, { useState } from 'react';
 import { Button } from "@material-ui/core";
 import { storage, db } from './firebase';
 import firebase from "firebase/compat/app"
+
 
 function ImageUpload({ username }) {
     const [image, setImage] = useState(null);
@@ -30,6 +33,7 @@ function ImageUpload({ username }) {
             (error) => {
                 // error function...
                 console.log(error.message);
+                alert(error.message);
             },
             () => {
                 // complete function...
@@ -55,13 +59,8 @@ function ImageUpload({ username }) {
     }
 
     return (
-        <div>
-            {/* I want: */}
-            {/* Caption input */}
-            {/* File picker */}
-            {/* Post button */}
-
-            <progress value={progress} max="100" />
+        <div className="imageupload">
+            <progress className="imageupload__progress" value={progress} max="100" />
             <input
                 type="text"
                 placeholder="Enter a caption..."
