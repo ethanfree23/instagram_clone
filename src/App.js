@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react'
 import './App.css';
 import Post from './Post.js'
@@ -190,32 +192,37 @@ function App() {
       </div>
 
 
-      <div className="app__posts">This is the start of something great!😀
-        {
-          posts.map(({ id, post }) => (
-            <Post
-              // className="app__posts"
-              key={id}
-              username={post.username}
-              caption={post.caption}
-              imageURL={post.imageURL}
-            />
-          ))
-        }
+      <div className="app__posts">
+        <div className="app__postsLeft">
+          {
+            posts.map(({ id, post }) => (
+              <Post
+                // className="app__posts"
+                key={id}
+                username={post.username}
+                caption={post.caption}
+                imageURL={post.imageURL}
+              />
+            ))
+          }
+        </div>
+        <div className=" app__postsRight">
+          <InstagramEmbed
+            url='https://www.instagram.com/p/B_uf9dmAGPw/'
+            clientAccessToken='123|456'
+            maxWidth={320}
+            hideCaption={false}
+            containerTagName='div'
+            protocol=''
+            injectScript
+            onLoading={() => { }}
+            onSuccess={() => { }}
+            onAfterRender={() => { }}
+            onFailure={() => { }}
+          />
+        </div>
       </div>
-      <InstagramEmbed
-        url='https://instagr.am/p/Zw9o4/'
-        clientAccessToken='123|456'
-        maxWidth={320}
-        hideCaption={false}
-        containerTagName='div'
-        protocol=''
-        injectScript
-        onLoading={() => { }}
-        onSuccess={() => { }}
-        onAfterRender={() => { }}
-        onFailure={() => { }}
-      />
+
 
       {user?.displayName ? (
         <ImageUpload username={user.displayName} />

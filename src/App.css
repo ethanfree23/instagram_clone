@@ -8,7 +8,8 @@
 
 .app__posts {
   padding: 20px;
-  
+  display: flex;
+  justify-content: center;
 }
 
 .app__header{
@@ -17,7 +18,9 @@
   border-bottom: 1px solid lightgray;
   object-fit: contain;
   display: flex;
+  /* This puts things in a row  */
   justify-content: space-between;
+  /* This puts space between all the stuffs */
 }
 
 .app__headerImage {
