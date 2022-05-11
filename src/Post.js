@@ -36,22 +36,21 @@ function Post({ postId, username, caption, imageURL }) {
           className="post__avatar"
           alt={username}
           src=""
-        // src="https://www.marketing-mojo.com/wp-content/uploads/2013/02/Jack-Donaghy.jpg"
         />
         <h3>{username}</h3>
-
-
       </div>
-      {/* header -> avatar + username */}
 
-      <img
-        className="post__image"
-        src={imageURL}
-      />
-      {/* image */}
+      <img className="post__image" src={imageURL} />
 
       <h4 className="post__text"><strong>{username} </strong>{caption}</h4>
-      {/* username + caption */}
+
+      <div className="post__comments">
+        {comments.map((comment) => (
+          <p>
+            <strong>{comment.username} </strong> {comment.text}
+          </p>
+        ))}
+      </div>
 
       <form className="post__commentBox">
         <input
