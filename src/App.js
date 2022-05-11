@@ -191,11 +191,10 @@ function App() {
         )}
       </div>
 
-
       <div className="app__posts">
         <div className="app__postsLeft">
           {
-            posts.map(({ id, post }) => (
+            posts.map(({ postId, id, post }) => (
               <Post
                 // className="app__posts"
                 key={id}
@@ -208,8 +207,8 @@ function App() {
         </div>
         <div className=" app__postsRight">
           <InstagramEmbed
-            url='https://www.instagram.com/p/B_uf9dmAGPw/'
-            clientAccessToken='123|456'
+            url='https://instagr.am/p/Zw9o4/'
+            // clientAccessToken='123|456'
             maxWidth={320}
             hideCaption={false}
             containerTagName='div'
@@ -220,6 +219,7 @@ function App() {
             onAfterRender={() => { }}
             onFailure={() => { }}
           />
+          <div>balls</div>
         </div>
       </div>
 
