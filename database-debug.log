@@ -1,0 +1,8 @@
+15:57:22.720 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+15:57:22.936 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+15:57:25.254 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - instagram-clone-react-e18f9-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 176ms, init: 0ms
+15:57:25.338 [NamespaceSystem-blocking-namespace-operation-dispatcher-8] INFO com.firebase.core.namespace.StateManager - Namespace instagram-clone-react-e18f9-default-rtdb status Active to Active
+15:58:06.567 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+15:58:06.572 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: instagram-clone-react-e18f9-default-rtdb
+15:58:06.578 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for instagram-clone-react-e18f9-default-rtdb
+15:58:06.583 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

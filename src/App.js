@@ -80,8 +80,7 @@ function App() {
   const signUp = (e) => {
     e.preventDefault();
 
-    auth.
-      createUserWithEmailAndPassword(email, password)
+    auth.createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
         return authUser.user.updateProfile({
           displayName: username
@@ -93,8 +92,7 @@ function App() {
   function signIn(e) {
     e.preventDefault();
 
-    auth.
-      signInWithEmailAndPassword(email, password)
+    auth.signInWithEmailAndPassword(email, password)
       .catch((error) => alert(error.message))
 
     setOpenSignIn(false);
